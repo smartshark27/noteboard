@@ -9,6 +9,10 @@ class TextBox extends Component {
     this._draw();
   }
 
+  isTextBox() {
+    return true;
+  }
+
   select() {
     this.textElement.setAttribute("fill", "Yellow")
   }

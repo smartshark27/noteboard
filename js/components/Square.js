@@ -1,29 +1,19 @@
 class Square extends Component {
   constructor(x, y) {
     super();
-    console.log("Creating new square at (", x, ", ", y, ")");
     this.id = nextObjectId++;
     [this.x, this.y] = [x, y];
-    this.size = 50;
+    this.size = 150;
 
     this._draw();
   }
 
   select() {
-    this.rectElement.setAttribute("fill", "Yellow")
+    this.rectElement.setAttribute("stroke", "Yellow")
   }
 
   deselect() {
-    this.rectElement.setAttribute("fill", "White")
-  }
-  
-  updateBasedOnKey(key) {
-    console.log("Cannot update square using keys");
-  }
-
-  backspace() {
-    console.log("Deleting square");
-    this.rectElement.remove();
+    this.rectElement.setAttribute("stroke", "White")
   }
 
   move(dx, dy) {
@@ -44,7 +34,8 @@ class Square extends Component {
       .setAttribute("y", this.y - this.size / 2)
       .setAttribute("width", this.size)
       .setAttribute("height", this.size)
-      .setAttribute("fill", "Yellow")
+      .setAttribute("stroke", "Yellow")
+      .setAttribute("stroke-width", 5)
       .setAttribute("onmousedown", "handleObjectMouseDown(event)")
     this.addElement(this.rectElement);
   }

@@ -20,30 +20,54 @@ window.addEventListener("keypress", (event) => {
     objects.push(textBox);
   } else if (selected.length === 1) {
     const object = selected[0];
-
-    if (key === "Enter" && object.text === "\\square") {
-      const newObject = new Square(object.x, object.y);
-      objects.push(newObject);
-      clearArray(selected);
-      object.remove();
-      selected.push(newObject);
+    if (isCommandTriggered(key)) {
+      handleCommand(object);
     } else {
       object.updateBasedOnKey(key);
     }
   }
 });
 
+function isCommandTriggered(key) {
+  return key === "Enter";
+}
+
+function handleCommand(object) {
+  if (!object.isTextBox()) {
+    return;
+  }
+
+  const command = object.text.toLowerCase();
+  console.log("Command is ", command);
+
+  switch (command) {
+    case "\\square":
+      createSquare(object);
+      break;
+    default:
+      console.log(command, "is not valid");
+  }
+}
+
+function createSquare(object) {
+  const square = new Square(object.x, object.y);
+  objects.push(square);
+  clearArray(selected);
+  object.remove();
+  selected.push(square);
+}
+
 window.addEventListener("keydown", (event) => {
   const key = event.key;
-  if (isBackspace(key) && selected.length == 1) {
-    console.log(`${key} was pressed down`);
+  if (isBackspace(key) && selected.length === 1) {
+    console.log(key, "was pressed down");
     const object = selected[0];
     object.backspace();
-    if (object.constructor.name == Square.name) {
+    if (!object.isTextBox()) {
       clearArray(selected);
     }
   } else if (isMultiSelectKey(key)) {
-    console.log(`${key} was pressed down`);
+    console.log(key, "was pressed down");
     multiSelectKeyPressedDown = true;
   }
 });
@@ -62,7 +86,7 @@ function handleClick() {
 
 function handleObjectMouseDown(event) {
   const id = event.target.id;
-  console.log(`Object ${id} has been selected`);
+  console.log("Mouse down on object", id);
   const object = getObject(id);
 
   if (!multiSelectKeyPressedDown && !selected.includes(object)) {
@@ -110,7 +134,7 @@ function deselect() {
 }
 
 function isBackspace(key) {
-  return key === "Backspace" || key === "Delete";
+  return ["Backspace", "Delete"].includes(key);
 }
 
 function isMultiSelectKey(key) {
