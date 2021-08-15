@@ -9,6 +9,14 @@ class TextBox extends Component {
     this._draw();
   }
 
+  select() {
+    this.textElement.setAttribute("fill", "Yellow")
+  }
+
+  deselect() {
+    this.textElement.setAttribute("fill", "White")
+  }
+
   updateText(key) {
     this.text += key;
     this.textElement.setTextContent(this.text);
@@ -40,7 +48,7 @@ class TextBox extends Component {
       .setAttribute("x", this.x)
       .setAttribute("y", this.y)
       .setAttribute("font-size", 30)
-      .setAttribute("fill", "White")
+      .setAttribute("fill", "Yellow")
       .setAttribute("style", "font-family: 'Courier New', monospace")
       .setAttribute("onmousedown", "handleObjectMouseDown(event)")
       .setTextContent(this.text);

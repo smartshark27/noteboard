@@ -1,5 +1,6 @@
 let selected = [];
 let mouseDown = false;
+let multiSelectKeyPressedDown = false;
 let nextObjectId = 0;
 let lastMouseX, lastMouseY;
 
@@ -23,9 +24,20 @@ window.addEventListener("keypress", (event) => {
 
 window.addEventListener("keydown", (event) => {
   const key = event.key;
-  console.log(`${key} was pressed down`);
   if (isBackspace(key) && selected.length == 1) {
+    console.log(`${key} was pressed down`);
     selected[0].backspaceText();
+  } else if (isMultiSelectKey(key)) {
+    console.log(`${key} was pressed down`);
+    multiSelectKeyPressedDown = true;
+  }
+});
+
+window.addEventListener("keyup", (event) => {
+  const key = event.key;
+  if (isMultiSelectKey(key)) {
+    console.log(`${event.key} was lifted`);
+    multiSelectKeyPressedDown = false;
   }
 });
 
@@ -35,9 +47,24 @@ function handleClick() {
 
 function handleObjectMouseDown(event) {
   const id = event.target.id;
-  console.log(`Object ${id} is being held`);
-  selected = [];
-  selected.push(getObject(id));
+  console.log(`Object ${id} has been selected`);
+  const object = getObject(id);
+
+  if (!multiSelectKeyPressedDown && !selected.includes(object)) {
+    deselect();
+  }
+  
+  if (multiSelectKeyPressedDown && selected.includes(object)) {
+    selected = selected.filter(o => {
+      return o != object;
+    });
+    console.log(selected);
+    object.deselect();
+  } else if (!selected.includes(object)) {
+    object.select();
+    selected.push(object);
+  }
+
   [lastMouseX, lastMouseY] = [event.offsetX, event.offsetY];
   mouseDown = true;
 }
@@ -46,8 +73,8 @@ function handleMouseMove(event) {
   if (selected && mouseDown) {
     selected.forEach(object => {
       object.move(event.offsetX - lastMouseX, event.offsetY - lastMouseY);
-      [lastMouseX, lastMouseY] = [event.offsetX, event.offsetY];
     });
+    [lastMouseX, lastMouseY] = [event.offsetX, event.offsetY];
   }
 }
 
@@ -56,19 +83,22 @@ function handleMouseUp() {
   mouseDown = false;
 }
 
-function moveObject() {
-  console.log(mouseDown);
-}
-
 function getObject(id) {
   return objects[id];
 }
 
 function deselect() {
   console.log("Deselected");
+  selected.forEach(object => {
+    object.deselect();
+  })
   selected = [];
 }
 
 function isBackspace(key) {
   return key === "Backspace" || key === "Delete";
+}
+
+function isMultiSelectKey(key) {
+  return ["Shift", "Control", "Meta"].includes(key);
 }
