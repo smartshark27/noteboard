@@ -17,12 +17,12 @@ class TextBox extends Component {
     this.textElement.setAttribute("fill", "White")
   }
 
-  updateText(key) {
+  updateBasedOnKey(key) {
     this.text += key;
     this.textElement.setTextContent(this.text);
   }
 
-  backspaceText() {
+  backspace() {
     if (this.text.length > 0) {
       this.text = this.text.slice(0, -1);
       this.textElement.setTextContent(this.text);

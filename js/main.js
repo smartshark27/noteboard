@@ -1,10 +1,10 @@
+const objects = [];
+
 let selected = [];
 let mouseDown = false;
 let multiSelectKeyPressedDown = false;
 let nextObjectId = 0;
 let lastMouseX, lastMouseY;
-
-const objects = [];
 
 function handleLoad() {
   console.log("Welcome to Noteboard");
@@ -13,12 +13,23 @@ function handleLoad() {
 window.addEventListener("keypress", (event) => {
   const key = event.key;
   console.log(`${key} was pressed`);
-  if (selected.length == 0) {
+
+  if (selected.length === 0) {
     const textBox = new TextBox(key);
     selected.push(textBox);
     objects.push(textBox);
-  } else if (selected.length == 1) {
-    selected[0].updateText(key);
+  } else if (selected.length === 1) {
+    const object = selected[0];
+
+    if (key === "Enter" && object.text === "\\square") {
+      const newObject = new Square(object.x, object.y);
+      objects.push(newObject);
+      clearArray(selected);
+      object.remove();
+      selected.push(newObject);
+    } else {
+      object.updateBasedOnKey(key);
+    }
   }
 });
 
@@ -26,7 +37,11 @@ window.addEventListener("keydown", (event) => {
   const key = event.key;
   if (isBackspace(key) && selected.length == 1) {
     console.log(`${key} was pressed down`);
-    selected[0].backspaceText();
+    const object = selected[0];
+    object.backspace();
+    if (object.constructor.name == Square.name) {
+      clearArray(selected);
+    }
   } else if (isMultiSelectKey(key)) {
     console.log(`${key} was pressed down`);
     multiSelectKeyPressedDown = true;
@@ -53,12 +68,11 @@ function handleObjectMouseDown(event) {
   if (!multiSelectKeyPressedDown && !selected.includes(object)) {
     deselect();
   }
-  
+
   if (multiSelectKeyPressedDown && selected.includes(object)) {
     selected = selected.filter(o => {
       return o != object;
     });
-    console.log(selected);
     object.deselect();
   } else if (!selected.includes(object)) {
     object.select();
@@ -92,7 +106,7 @@ function deselect() {
   selected.forEach(object => {
     object.deselect();
   })
-  selected = [];
+  clearArray(selected);
 }
 
 function isBackspace(key) {
