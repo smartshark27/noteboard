@@ -22,7 +22,6 @@ class TextBox extends Component {
   }
 
   move(x, y) {
-    console.log("Moving object")
     this.elements.forEach(element => {
       element.setAttribute("x", x);
       element.setAttribute("y", y);
