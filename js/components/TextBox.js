@@ -2,11 +2,11 @@ class TextBox extends Component {
   constructor(text) {
     super();
     this.id = nextObjectId++;
+    this.x = Math.floor(window.innerWidth / 2);
+    this.y = Math.floor(window.innerHeight / 2);
     this.text = text;
 
-    const x = Math.floor(window.innerWidth / 2);
-    const y = Math.floor(window.innerHeight / 2);
-    this._draw(x, y);
+    this._draw();
   }
 
   updateText(key) {
@@ -21,20 +21,24 @@ class TextBox extends Component {
     }
   }
 
-  move(x, y) {
+  move(dx, dy) {
+    this.setPosition(this.x + dx, this.y + dy);
+  }
+
+  setPosition(x, y) {
     this.elements.forEach(element => {
-      element.setAttribute("x", x);
-      element.setAttribute("y", y);
+      [this.x, this.y] = [x, y];
+      element.setAttribute("x", x).setAttribute("y", y);
     });
   }
 
-  _draw(x, y) {
+  _draw() {
     this.textElement = SVG.new("text")
       .setAttribute("id", `${this.id}`)
       .setAttribute("dominant-baseline", "middle")
       .setAttribute("text-anchor", "middle")
-      .setAttribute("x", x)
-      .setAttribute("y", y)
+      .setAttribute("x", this.x)
+      .setAttribute("y", this.y)
       .setAttribute("font-size", 30)
       .setAttribute("fill", "White")
       .setAttribute("style", "font-family: 'Courier New', monospace")

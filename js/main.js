@@ -1,6 +1,7 @@
 let selected = [];
 let mouseDown = false;
 let nextObjectId = 0;
+let lastMouseX, lastMouseY;
 
 const objects = [];
 
@@ -37,13 +38,15 @@ function handleObjectMouseDown(event) {
   console.log(`Object ${id} is being held`);
   selected = [];
   selected.push(getObject(id));
+  [lastMouseX, lastMouseY] = [event.offsetX, event.offsetY];
   mouseDown = true;
 }
 
 function handleMouseMove(event) {
   if (selected && mouseDown) {
     selected.forEach(object => {
-      object.move(event.offsetX, event.offsetY);
+      object.move(event.offsetX - lastMouseX, event.offsetY - lastMouseY);
+      [lastMouseX, lastMouseY] = [event.offsetX, event.offsetY];
     });
   }
 }
