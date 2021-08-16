@@ -38,15 +38,26 @@ function handleCommand(object) {
   }
 
   const command = object.text.toLowerCase();
-  console.log("Command is ", command);
+  console.log("Command is", command);
 
   switch (command) {
+    case "\\rectangle":
+      createRectangle(object);
+      break;
     case "\\square":
       createSquare(object);
       break;
     default:
       console.log(command, "is not valid");
   }
+}
+
+function createRectangle(object) {
+  const rect = new Rectangle(object.x, object.y);
+  objects.push(rect);
+  clearArray(selected);
+  object.remove();
+  selected.push(rect);
 }
 
 function createSquare(object) {
