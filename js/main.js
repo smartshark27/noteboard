@@ -44,6 +44,9 @@ function handleCommand(object) {
     case "\\circle":
       createCircle(object);
       break;
+    case "\\line":
+      createLine(object);
+      break;
     case "\\rectangle":
       createRectangle(object);
       break;
@@ -63,12 +66,20 @@ function createCircle(object) {
   selected.push(circle);
 }
 
-function createRectangle(object) {
-  const rect = new Rectangle(object.x, object.y);
-  objects.push(rect);
+function createLine(object) {
+  const line = new Line(object.x, object.y);
+  objects.push(line);
   clearArray(selected);
   object.remove();
-  selected.push(rect);
+  selected.push(line);
+}
+
+function createRectangle(object) {
+  const line = new Line(object.x, object.y);
+  objects.push(line);
+  clearArray(selected);
+  object.remove();
+  selected.push(line);
 }
 
 function createSquare(object) {
