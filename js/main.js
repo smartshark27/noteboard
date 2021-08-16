@@ -41,6 +41,9 @@ function handleCommand(object) {
   console.log("Command is", command);
 
   switch (command) {
+    case "\\circle":
+      createCircle(object);
+      break;
     case "\\rectangle":
       createRectangle(object);
       break;
@@ -50,6 +53,14 @@ function handleCommand(object) {
     default:
       console.log(command, "is not valid");
   }
+}
+
+function createCircle(object) {
+  const circle = new Circle(object.x, object.y);
+  objects.push(circle);
+  clearArray(selected);
+  object.remove();
+  selected.push(circle);
 }
 
 function createRectangle(object) {
