@@ -34,6 +34,7 @@ class Square extends Component {
       .setAttribute("y", this.y)
       .setAttribute("width", this.size)
       .setAttribute("height", this.size)
+      .setAttribute("fill-opacity", 0)
       .setAttribute("stroke", "Yellow")
       .setAttribute("stroke-width", 5)
       .setAttribute("onmousedown", "handleObjectMouseDown(event)")

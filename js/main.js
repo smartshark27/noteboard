@@ -75,11 +75,11 @@ function createLine(object) {
 }
 
 function createRectangle(object) {
-  const line = new Line(object.x, object.y);
-  objects.push(line);
+  const rectangle = new Rectangle(object.x, object.y);
+  objects.push(rectangle);
   clearArray(selected);
   object.remove();
-  selected.push(line);
+  selected.push(rectangle);
 }
 
 function createSquare(object) {
