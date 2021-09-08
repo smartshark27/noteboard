@@ -117,7 +117,9 @@ window.addEventListener("keyup", (event) => {
 });
 
 function handleClick() {
-  deselectAll();
+  if (!multiSelectKeyPressedDown) {
+    deselectAll();
+  }
 }
 
 function handleObjectMouseDown(event) {
