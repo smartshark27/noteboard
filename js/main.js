@@ -2,7 +2,9 @@ const objects = [];
 
 let selected = [];
 let mouseDown = false;
+let resizerMouseDown = false;
 let multiSelectKeyPressedDown = false;
+let resizerIndex;
 let nextObjectId = 0;
 let lastMouseX, lastMouseY;
 
@@ -72,6 +74,7 @@ function createLine(object) {
   clearArray(selected);
   object.remove();
   selected.push(line);
+  line.focus();
 }
 
 function createRectangle(object) {
@@ -114,7 +117,7 @@ window.addEventListener("keyup", (event) => {
 });
 
 function handleClick() {
-  deselect();
+  deselectAll();
 }
 
 function handleObjectMouseDown(event) {
@@ -123,47 +126,82 @@ function handleObjectMouseDown(event) {
   const object = getObject(id);
 
   if (!multiSelectKeyPressedDown && !selected.includes(object)) {
-    deselect();
+    deselectAll();
   }
 
   if (multiSelectKeyPressedDown && selected.includes(object)) {
-    selected = selected.filter(o => {
+    selected = selected.filter((o) => {
       return o != object;
     });
     object.deselect();
   } else if (!selected.includes(object)) {
     object.select();
+    console.log(`Focusing on object ${object.id}`);
+    object.focus();
     selected.push(object);
+    if (selected.length > 1) {
+      unfocusAll();
+    }
   }
+
+  selected.length == 1 ? selected[0].focus() : unfocusAll();
 
   [lastMouseX, lastMouseY] = [event.offsetX, event.offsetY];
   mouseDown = true;
 }
 
+function handleResizerMouseDown(event) {
+  console.log("Resizing selected object");
+  resizerIndex = Number(event.target.id.split("-")[2]);
+  resizerMouseDown = true;
+}
+
 function handleMouseMove(event) {
-  if (selected && mouseDown) {
-    selected.forEach(object => {
-      object.move(event.offsetX - lastMouseX, event.offsetY - lastMouseY);
-    });
-    [lastMouseX, lastMouseY] = [event.offsetX, event.offsetY];
+  const [dx, dy] = [event.offsetX - lastMouseX, event.offsetY - lastMouseY];
+  if (resizerMouseDown) {
+    resizeSelectedObject(dx, dy);
+  } else if (selected && mouseDown) {
+    moveSelectedObjects(dx, dy);
   }
+  [lastMouseX, lastMouseY] = [event.offsetX, event.offsetY];
+}
+
+function resizeSelectedObject(dx, dy) {
+  if (selected) {
+    selected[0].resize(resizerIndex, dx, dy);
+  }
+}
+
+function moveSelectedObjects(dx, dy) {
+  selected.forEach((object) => {
+    object.move(dx, dy);
+  });
 }
 
 function handleMouseUp() {
   console.log("Mouse up");
   mouseDown = false;
+  resizerMouseDown = false;
 }
 
 function getObject(id) {
   return objects[id];
 }
 
-function deselect() {
-  console.log("Deselected");
-  selected.forEach(object => {
+function deselectAll() {
+  console.log("Deselecting all");
+  selected.forEach((object) => {
+    object.unfocus();
     object.deselect();
-  })
+  });
   clearArray(selected);
+}
+
+function unfocusAll() {
+  console.log("Unfocusing all");
+  selected.forEach((object) => {
+    object.unfocus();
+  });
 }
 
 function isBackspace(key) {

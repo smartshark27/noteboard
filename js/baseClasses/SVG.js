@@ -57,6 +57,10 @@ class SVG {
     return this.setAttribute("opacity", 0);
   }
 
+  reveal() {
+    return this.setAttribute("opacity", 1);
+  }
+
   remove() {
     if (this.element) {
       this.element.remove();

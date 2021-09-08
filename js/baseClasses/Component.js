@@ -24,6 +24,14 @@ class Component {
     console.log("deselect is not implemented for class", this.getClassName());
   }
 
+  focus() {
+    console.log("focus is not implemented for class", this.getClassName());
+  }
+
+  unfocus() {
+    console.log("unfocus is not implemented for class", this.getClassName());
+  }
+
   move() {
     console.log("move is not implemented for class", this.getClassName());
   }
