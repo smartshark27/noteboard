@@ -53,6 +53,7 @@ class Circle extends Component {
       .setAttribute("cx", this.x)
       .setAttribute("cy", this.y)
       .setAttribute("r", this.radius)
+      .setAttribute("fill-opacity", 0)
       .setAttribute("stroke", "Yellow")
       .setAttribute("stroke-width", LINE_THICKNESS)
       .setAttribute("pointer-events", "stroke")

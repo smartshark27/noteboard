@@ -35,6 +35,7 @@ class Rectangle extends Component {
       .setAttribute("y", this.y)
       .setAttribute("width", this.width)
       .setAttribute("height", this.height)
+      .setAttribute("fill-opacity", 0)
       .setAttribute("stroke", "Yellow")
       .setAttribute("stroke-width", LINE_THICKNESS)
       .setAttribute("pointer-events", "stroke")
