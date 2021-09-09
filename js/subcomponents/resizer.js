@@ -2,7 +2,7 @@ class Resizer extends Component {
   constructor(parentId, childId, x, y) {
     super();
     this.id = `${parentId}-resizer-${childId}`;
-    this.radius = 5;
+    this.radius = 7;
     [this.x, this.y] = [x, y];
 
     this._draw();
