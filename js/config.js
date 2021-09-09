@@ -1,0 +1,1 @@
+const LINE_THICKNESS = 7;

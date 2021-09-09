@@ -66,6 +66,7 @@ function createCircle(object) {
   clearArray(selected);
   object.remove();
   selected.push(circle);
+  circle.focus();
 }
 
 function createLine(object) {

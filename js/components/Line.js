@@ -27,7 +27,7 @@ class Line extends Component {
 
   move(dx, dy) {
     this.setPosition(this.x1 + dx, this.y1 + dy, this.x2 + dx, this.y2 + dy);
-    this._moveResizers(dx, dy);
+    this.moveResizers(dx, dy);
   }
 
   resize(resizerIndex, dx, dy) {
@@ -49,7 +49,7 @@ class Line extends Component {
       .setAttribute("x2", this.x2)
       .setAttribute("y2", this.y2)
       .setAttribute("stroke", "Yellow")
-      .setAttribute("stroke-width", 5)
+      .setAttribute("stroke-width", LINE_THICKNESS)
       .setAttribute("onmousedown", "handleObjectMouseDown(event)");
     this.addElement(this.lineElement);
 
@@ -57,22 +57,8 @@ class Line extends Component {
   }
 
   _drawResizers() {
-    this.resizers = [];
-
-    const resizer0 = this._createResizer(0, this.x1, this.y1);
-    this.addElement(resizer0);
-    this.resizers.push(resizer0);
-    const resizer1 = this._createResizer(1, this.x2, this.y2);
-    this.addElement(resizer1);
-    this.resizers.push(resizer1);
-  }
-
-  _createResizer(index, x, y) {
-    return new Resizer(this.id, index, x, y);
-  }
-
-  _moveResizers(dx, dy) {
-    this.resizers.forEach((resizer) => resizer.move(dx, dy));
+    this.addResizer(new Resizer(this.id, 0, this.x1, this.y1));
+    this.addResizer(new Resizer(this.id, 1, this.x2, this.y2));
   }
 
   _movePoint1(dx, dy) {

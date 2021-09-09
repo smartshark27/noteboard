@@ -2,6 +2,7 @@ class Component {
   constructor() {
     console.log("Creating new", this.getClassName());
     this.elements = [];
+    this.resizers = [];
   }
 
   draw() {}
@@ -9,6 +10,11 @@ class Component {
   addElement(element) {
     this.elements.push(element);
     return this;
+  }
+
+  addResizer(resizer) {
+    this.addElement(resizer);
+    this.resizers.push(resizer);
   }
 
   remove() {
@@ -34,6 +40,10 @@ class Component {
 
   move() {
     console.log("move is not implemented for class", this.getClassName());
+  }
+
+  moveResizers(dx, dy) {
+    this.resizers.forEach((resizer) => resizer.move(dx, dy));
   }
 
   setPosition() {

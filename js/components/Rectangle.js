@@ -35,9 +35,9 @@ class Rectangle extends Component {
       .setAttribute("y", this.y)
       .setAttribute("width", this.width)
       .setAttribute("height", this.height)
-      .setAttribute("fill-opacity", 0)
       .setAttribute("stroke", "Yellow")
-      .setAttribute("stroke-width", 5)
+      .setAttribute("stroke-width", LINE_THICKNESS)
+      .setAttribute("pointer-events", "stroke")
       .setAttribute("onmousedown", "handleObjectMouseDown(event)")
     this.addElement(this.rectElement);
   }

@@ -54,11 +54,11 @@ class SVG {
   }
 
   hide() {
-    return this.setAttribute("opacity", 0);
+    return this.setAttribute("visibility", "hidden");
   }
 
   reveal() {
-    return this.setAttribute("opacity", 1);
+    return this.setAttribute("visibility", "visible");
   }
 
   remove() {
