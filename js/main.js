@@ -84,6 +84,7 @@ function createRectangle(object) {
   clearArray(selected);
   object.remove();
   selected.push(rectangle);
+  rectangle.focus();
 }
 
 function createSquare(object) {
@@ -92,6 +93,7 @@ function createSquare(object) {
   clearArray(selected);
   object.remove();
   selected.push(square);
+  square.focus();
 }
 
 window.addEventListener("keydown", (event) => {
